@@ -3,5 +3,5 @@
 /MEDIA/
 /.idea/
 /ttvote/local_settings.py
-*/__pycache__/
+**/__pycache__/
 /STATIC/

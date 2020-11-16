@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static "election.css" %}">
+{% endblock %}
+
+{% block content %}
+  <h1 class="card-header text-center">{{ election.name }}</h1>
+  <div class="card-body">
+
+    <div class="gallery">
+      {% for choice in choices %}
+        <div class="option">
+          <img src="{{ choice.image.url }}" alt="{{ choice.text }}" class="img-thumbnail option-pick">
+          <span class="text-center option-text">{{ choice.text }}: {{ choice.votes }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

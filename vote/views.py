@@ -1,9 +1,11 @@
 import random
 
+from django.db.models import Count
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View, TemplateView, ListView, DetailView
 from django.shortcuts import get_object_or_404, HttpResponseRedirect, reverse
 
-from .models import Election, Vote
+from .models import Election, Vote, Option
 
 
 class HomeView(ListView):
@@ -23,6 +25,24 @@ class DoneView(DetailView):
     def get_queryset(self):
         self.election = get_object_or_404(Election, id=self.kwargs['election'])
         return self.election.vote_set.all()
+
+
+class ResultView(LoginRequiredMixin, ListView):
+    model = Option
+    template_name = "results.html"
+    ordering = [Count("votes_set")]
+    context_object_name = "choices"
+
+    def get_queryset(self):
+        self.election = get_object_or_404(Election, id=self.kwargs['election'])
+        return self.election.option_set.all()
+
+    def get_context_data(self, **kwargs):
+        ctxt = super().get_context_data(**kwargs)
+        self.election = get_object_or_404(Election, id=self.kwargs['election'])
+        ctxt['election'] = self.election
+        ctxt['choices'] = sorted(ctxt['choices'], key=lambda x: -x.votes())
+        return ctxt
 
 
 # Create your views here.
@@ -58,7 +78,8 @@ class VoteView(TemplateView):
             )
             vote.save()
             vote.selections.add(*selection)
-            return HttpResponseRedirect(reverse("vote:vote_done", kwargs={'election':self.election.id, 'slug':vote.uuid}))
+            return HttpResponseRedirect(
+                reverse("vote:vote_done", kwargs={'election': self.election.id, 'slug': vote.uuid}))
 
     def get_context_data(self, **kwargs):
         ctxt = super().get_context_data(**kwargs)

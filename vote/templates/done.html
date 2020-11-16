@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3 class="card-header">Warwick Tabletop Elections</h3>
+  <div class="card-body">
+    <p class="card-text">Congratulations, your vote has been cast!</p>
+    <p><strong>Source IP:</strong> {{ object.ip }}</p>
+    <p><strong>Date/time:</strong> {{ object.time }}</p>
+    <h4>Selections:</h4>
+
+    <ul class="list-group">
+    {% for i in object.selections.all %}
+      <li class="list-group-item">{{ i.text }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

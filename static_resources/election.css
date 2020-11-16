@@ -1,0 +1,43 @@
+.gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+input[type=checkbox] + label.option {
+  background: #fff;
+}
+
+input[type=checkbox]:hover + label.option {
+  background: #eee;
+}
+
+input[type=checkbox]:checked + label.option {
+  background: #6D0F8C;
+  color: white;
+}
+
+input[type=checkbox]:checked:hover + label.option {
+  background: #5b0d73;
+  color: white;
+}
+
+.option {
+  width: 300px;
+  max-width: 100%;
+  padding: 1em;
+  margin: 0.5em;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.option-text {
+  margin-top: 0.5em;
+  text-align: center;
+  font-weight: bold;
+}
+
+/*# sourceMappingURL=election.css.map */

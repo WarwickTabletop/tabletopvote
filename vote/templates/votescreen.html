@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static "election.css" %}">
+{% endblock %}
+
+{% block content %}
+  <h1 class="card-header text-center">{{ election.name }}</h1>
+  <div class="card-body">
+    {% if election.intro %}
+      <div class="mb-3">
+        {{ election.intro|safe }}
+      </div>
+    {% endif %}
+    {% if election.max_votes != 0 %}
+      {% if election.max_votes == 1 %}
+        <div class="alert alert-info">Please select a single option.</div>
+      {% else %}
+        <div class="alert alert-info">Please select up to {{ election.max_votes }} options.</div>
+      {% endif %}
+    {% endif %}
+    {% if errors %}
+      {% for e in errors %}
+        <div class="alert alert-danger">{{ e }}</div>
+      {% endfor %}
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="gallery">
+        {% for choice in choices %}
+          <input type="checkbox" class="d-none" name="selection" id="{{ choice.formid }}"
+                 value="{{ choice.id }}">
+          <label class="option" for="{{ choice.formid }}">
+            <img src="{{ choice.image.url }}" alt="{{ choice.text }}" class="img-thumbnail option-pick">
+            <span class="text-center option-text">{{ choice.text }}</span>
+          </label>
+        {% endfor %}
+      </div>
+      <button class="btn-outline-primary btn-block btn" type="submit">Submit Vote</button>
+    </form>
+  </div>
+{% endblock %}

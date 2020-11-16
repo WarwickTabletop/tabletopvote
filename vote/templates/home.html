@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+  <h3 class="card-header">Warwick Tabletop Elections</h3>
+  <div class="card-body">
+    <p class="card-text">Please select an election to vote in.</p>
+    {% for i in elections %}
+      <div class="list-group">
+        <a class="list-group-item list-group-item-action" href="{% url "vote:vote" id=i.id %}">{{ i.name }}</a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

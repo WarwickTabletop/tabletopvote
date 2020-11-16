@@ -1,0 +1,98 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  {% comment %}
+    THIS IS NEVER USED DIRECTLY.
+    So all scripts should instead be added in addnavbar, the next template up,
+    using the topscripts and bottomscripts blocks.
+    This defines the global grid format - a col3 sidebar, and a col9 body.
+    {% endcomment %}
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="{% static "favicon.ico" %}" type="image/x-icon">
+  <link rel="shortcut" href="{% static "favicon.ico" %}" type="image/x-icon">
+  <link rel="apple-touch-icon" href="{% static "WebLogo.png" %}">
+
+  <title>{% block title %}{% endblock %} - Warwick Tabletop Games and Role-Playing Society</title>
+
+  {% block bootstrap %}
+    <link rel="stylesheet" href="{% static "tgrsite_bootstrap.css" %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+          crossorigin="anonymous">
+  {% endblock %}
+
+  {% comment %} For scripts we don't want at the top of the email. {% endcomment %}
+  {% block topscripts %}
+  {% endblock %}
+
+  {% block head %}
+    {{ block.super }}
+    {# Add some SEO metadata to help discoverability #}
+    <meta name="robots" content="noindex">
+  {% endblock %}
+
+  {% block css %}
+    <link rel="stylesheet" href="{% static "tgrsite_local.css" %}">
+    {% comment %}
+            This is where a page's custom CSS will go, or a link to the relevant stylesheet I guess.
+        {% endcomment %}
+  {% endblock %}
+
+</head>
+
+<body>
+<div id="pagetop" class="bg-dark">
+  <div class="sticky-top">
+    {% if debug %}
+      <div class="container-fluid align-content-center mb-0" style="background: darkred"><p
+        class="text-center text-light font-weight-bolder mb-0">DEBUG</p></div>
+    {% endif %}
+    <nav class="navbar navbar-dark bg-secondary mb-3">
+      <p class="d-flex flex-row justify-content-center w-100 mb-0">
+        <a class="" href="/"><img src="{% static "LogoText.png" %}" height="120"
+                                  alt="Warwick Tabletop Games and Role-Playing Society"></a>
+
+      </p>
+    </nav>
+  </div>
+
+
+  <div class="container-fluid">
+    {% block mainbody %}
+      <div class="row mb-3">
+        <div class="col-xl-2 col-1">
+        </div>
+        <div class="col-xl-8 col-10">
+          <div class="card">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+        <div class="col-xl-2 col-1">
+        </div>
+      </div>
+    {% endblock %}
+  </div>
+</div>
+
+<footer class="bg-light">
+  {% block footer %}{% endblock %}
+</footer>
+
+{% comment %} For scripts at the bottom of the page. {% endcomment %}
+{% block bottomscripts %}
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+          integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+{% endblock %}
+</body>
+</html>

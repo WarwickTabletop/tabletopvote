@@ -27,6 +27,9 @@ class ElectionAdmin(admin.ModelAdmin):
 
 class VoteAdmin(admin.ModelAdmin):
     readonly_fields = ['ip', 'uuid', 'time', 'election', 'selections']
+    list_display = ['uuid', 'ip', 'time', 'election']
+    list_filter = ['election']
+    list_display_links = ['uuid']
 
 
 # Register your models here.
